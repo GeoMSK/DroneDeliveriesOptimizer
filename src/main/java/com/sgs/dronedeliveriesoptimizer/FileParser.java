@@ -22,6 +22,8 @@ public class FileParser {
     private int productTypesNo;
     private int warehouseNo;
     private Warehouse[] warehouses;
+    private int ordersNo;
+    private Order[] orders;
 
     public FileParser() {
     }
@@ -41,6 +43,11 @@ public class FileParser {
         this.warehouses = new Warehouse[this.warehouseNo];
         for (int i = 0; i < this.warehouseNo; i++) {
             warehouses[i] = parseWarehouse(br.readLine(), br.readLine());
+        }
+        this.ordersNo = Integer.parseInt(br.readLine());
+        orders = new Order[this.ordersNo];
+        for (int i = 0; i < this.ordersNo; i++) {
+            orders[i] = parseOrder(br.readLine(), br.readLine(), br.readLine());
         }
     }
 
@@ -138,6 +145,42 @@ public class FileParser {
     }
 
     /**
+     * The next section of the file describes the customer​orders. This section contains:
+     * <ul><li> a line containing the following natural number </li>
+     * <ul><li> C ­ the number of customer orders ( 1 ≤ C ≤ 10000) </li></ul>
+     * <li> three lines for each order, each three lines describing the subsequent orders from order 0 to C ­ 1: </li>
+     * <ul><li> a line containing two natural numbers separated by a single space: the row of the delivery cell and the
+     * column of the delivery cell ( 0 ≤ row &lt number of rows; 0 ≤ column &lt number of columns) </li>
+     * <li> a line containing one natural number Li ­ the number of the ordered product items ( 1 ≤ Li &lt 10000) </li>
+     * <li> a line containing Li integers separated by single spaces: the product types of the individual product items.
+     * For each of the product types, 0 ≤ product type &lt P holds. </li>
+     * </ul>
+     * </ul>
+     *
+     * @param line1 a line containing the the row and column of the delivery position
+     * @param line2 a line containing the number of ordered products
+     * @param line3 a line containing the type of each product
+     * @return
+     */
+    private Order parseOrder(String line1, String line2, String line3) {
+        int row, col;
+        try (Scanner scanner = new Scanner(line1)) {
+            scanner.useDelimiter(" ");
+            row = scanner.nextInt();
+            col = scanner.nextInt();
+        }
+        int productsNo = Integer.parseInt(line2);
+        int[] productTypes = new int[productsNo];
+        try (Scanner scanner = new Scanner(line3)) {
+            scanner.useDelimiter(" ");
+            for (int i = 0; i < productsNo; i++) {
+                productTypes[i] = scanner.nextInt();
+            }
+        }
+        return new Order(new Position(row, col), productsNo, productTypes);
+    }
+
+    /**
      *
      * @return the {@link SimulationParameters} object
      */
@@ -175,6 +218,22 @@ public class FileParser {
      */
     public Warehouse[] getWarehouses() {
         return warehouses;
+    }
+
+    /**
+     *
+     * @return the total number of orders
+     */
+    public int getOrdersNo() {
+        return ordersNo;
+    }
+
+    /**
+     *
+     * @return the orders
+     */
+    public Order[] getOrders() {
+        return orders;
     }
 
 }

@@ -3,6 +3,7 @@ package com.sgs.dronedeliveriesoptimizer;
 import java.io.InputStream;
 import org.junit.After;
 import org.junit.AfterClass;
+import org.junit.Assert;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -74,6 +75,20 @@ public class FileParserTest {
         assertEquals(1, warehouses[9].getProducts()[0]);
         assertEquals(0, warehouses[9].getProducts()[warehouses[9].getProducts().length-1]);
         
+        /*
+         *  Orders Test
+         */
+        Order[] orders = fileParser.getOrders();
+        assertEquals(1250, fileParser.getOrdersNo());
+        assertEquals(340, orders[0].getDeliveryPos().getRow());
+        assertEquals(371,orders[0].getDeliveryPos().getCol());
+        assertEquals(8, orders[0].getProductsNo());
+        Assert.assertArrayEquals(new int[]{226,183,6,220,299,280,12,42}, orders[0].getProductTypes());
+        
+        assertEquals(157, orders[orders.length-1].getDeliveryPos().getRow());
+        assertEquals(157,orders[orders.length-1].getDeliveryPos().getCol());
+        assertEquals(4, orders[orders.length-1].getProductsNo());
+        Assert.assertArrayEquals(new int[]{385,258,15,40}, orders[orders.length-1].getProductTypes());
     }
 
 }
