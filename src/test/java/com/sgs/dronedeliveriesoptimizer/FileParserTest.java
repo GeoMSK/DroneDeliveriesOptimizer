@@ -57,6 +57,23 @@ public class FileParserTest {
         int[] pw = fileParser.getProductWeights();
         assertEquals(73, pw[0]);
         assertEquals(60, pw[pw.length - 1]);
+        
+        /*
+         *  Warehouses Test
+         */
+        Warehouse[] warehouses = fileParser.getWarehouses();
+        assertEquals(10, warehouses.length);
+        assertEquals(113, warehouses[0].getPosition().getRow());
+        assertEquals(179, warehouses[0].getPosition().getCol());
+        assertEquals(0, warehouses[0].getProducts()[0]);
+        assertEquals(5, warehouses[0].getProducts()[2]);
+        assertEquals(7, warehouses[0].getProducts()[warehouses[0].getProducts().length-2]);
+        
+        assertEquals(297, warehouses[9].getPosition().getRow());
+        assertEquals(423, warehouses[9].getPosition().getCol());
+        assertEquals(1, warehouses[9].getProducts()[0]);
+        assertEquals(0, warehouses[9].getProducts()[warehouses[9].getProducts().length-1]);
+        
     }
 
 }

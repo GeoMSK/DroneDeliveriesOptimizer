@@ -19,6 +19,9 @@ public class FileParser {
 
     private SimulationParameters simulationParameters;
     private int[] productWeights;
+    private int productTypesNo;
+    private int warehouseNo;
+    private Warehouse[] warehouses;
 
     public FileParser() {
     }
@@ -26,14 +29,19 @@ public class FileParser {
     public void parse(File file) throws FileNotFoundException, IOException {
         _parse(new BufferedReader(new FileReader(file)));
     }
-    
+
     public void parse(InputStream stream) throws FileNotFoundException, IOException {
         _parse(new BufferedReader(new InputStreamReader(stream)));
     }
-    
+
     private void _parse(BufferedReader br) throws FileNotFoundException, IOException {
         parseFirstLine(br.readLine());
         parseProductWeights(br.readLine(), br.readLine());
+        this.warehouseNo = Integer.parseInt(br.readLine());
+        this.warehouses = new Warehouse[this.warehouseNo];
+        for (int i = 0; i < this.warehouseNo; i++) {
+            warehouses[i] = parseWarehouse(br.readLine(), br.readLine());
+        }
     }
 
     /**
@@ -84,14 +92,30 @@ public class FileParser {
      * @throws IllegalStateException if scanner is closed
      */
     private void parseProductWeights(String line1, String line2) {
-        int productsNo = Integer.parseInt(line1);
-        this.productWeights = new int[productsNo];
+        this.productTypesNo = Integer.parseInt(line1);
+        this.productWeights = new int[this.productTypesNo];
         try (Scanner scanner = new Scanner(line2)) {
             scanner.useDelimiter(" ");
-            for (int i = 0; i < productsNo; i++) {
+            for (int i = 0; i < this.productTypesNo; i++) {
                 productWeights[i] = scanner.nextInt();
             }
         }
+    }
+
+    private Warehouse parseWarehouse(String line1, String line2) {
+        int row, col;
+        int[] products = new int[this.productTypesNo];
+        try (Scanner scanner = new Scanner(line1)) {
+            scanner.useDelimiter(" ");
+            row = scanner.nextInt();
+            col = scanner.nextInt();
+        }
+        try (Scanner scanner = new Scanner(line2)) {
+            for (int i = 0; i < this.productTypesNo; i++) {
+                products[i] = scanner.nextInt();
+            }
+        }
+        return new Warehouse(new Position(row, col), products);
     }
 
     public SimulationParameters getSimulationParameters() {
@@ -101,5 +125,19 @@ public class FileParser {
     public int[] getProductWeights() {
         return productWeights;
     }
+
+    public int getProductTypesNo() {
+        return productTypesNo;
+    }
+
+    public int getWarehouseNo() {
+        return warehouseNo;
+    }
+
+    public Warehouse[] getWarehouses() {
+        return warehouses;
+    }
+    
+    
 
 }
