@@ -102,6 +102,25 @@ public class FileParser {
         }
     }
 
+    /**
+     * The next section of the file describes the ​ warehouses and availability of individual product types at each
+     * warehouse. This section contains:<ul>
+     * <li> a line containing the following natural number: </li>
+     * <ul><li> W ­ the number of warehouses ( 1 ≤ W ≤ 10000) </li></ul>
+     * <li>two lines for each warehouse, each two lines describing the subsequent warehouses from warehouse 0 to
+     * warehouse W − 1 : </li>
+     * <ul><li>a line containing two natural numbers separated by a single space: the row and the column in which the
+     * warehouse is located ( 0 ≤ row &lt number of rows; 0 ≤ column &lt number of columns) </li>
+     * <li> a line containing P natural numbers separated by single spaces: number of items of the subsequent product
+     * types available at the warehouse, from product type 0 to product type P − 1 . For each product type, 0 ≤ number
+     * of items ≤ 10000 holds. </li>
+     * </ul>
+     *
+     * @param line1 a line containing the row and column of the warehouse
+     * @param line2 a line containing the number of products per product type
+     *
+     * @return a {@link Warehouse} object
+     */
     private Warehouse parseWarehouse(String line1, String line2) {
         int row, col;
         int[] products = new int[this.productTypesNo];
@@ -118,26 +137,44 @@ public class FileParser {
         return new Warehouse(new Position(row, col), products);
     }
 
+    /**
+     *
+     * @return the {@link SimulationParameters} object
+     */
     public SimulationParameters getSimulationParameters() {
         return simulationParameters;
     }
 
+    /**
+     *
+     * @return the weight of given product type
+     */
     public int[] getProductWeights() {
         return productWeights;
     }
 
+    /**
+     *
+     * @return the total number of product types
+     */
     public int getProductTypesNo() {
         return productTypesNo;
     }
 
+    /**
+     *
+     * @return the total number of warehouses
+     */
     public int getWarehouseNo() {
         return warehouseNo;
     }
 
+    /**
+     *
+     * @return the warehouses
+     */
     public Warehouse[] getWarehouses() {
         return warehouses;
     }
-    
-    
 
 }
