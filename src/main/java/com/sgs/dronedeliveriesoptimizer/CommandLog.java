@@ -7,9 +7,11 @@ package com.sgs.dronedeliveriesoptimizer;
 public class CommandLog {
 
     private StringBuilder sb;
+    private int commandNum;
 
     private CommandLog() {
         this.sb = new StringBuilder();
+        this.commandNum = 0;
     }
 
     /**
@@ -46,6 +48,7 @@ public class CommandLog {
      */
     public void deliver(int droneId, int customerOrderId, int productTypeId, int productNum) {
         sb.append(String.format("%d %s %d %d %d\n", droneId, CommandTag.DELIVER, customerOrderId, productTypeId, productNum));
+        this.commandNum++;
     }
 
     /**
@@ -56,10 +59,20 @@ public class CommandLog {
      */
     public void wait(int droneId, int turns) {
         sb.append(String.format("%d %s %d\n", droneId, CommandTag.WAIT, turns));
+        this.commandNum++;
     }
 
     private void _loadUnload(int droneId, CommandTag commandTag, int warehouseId, int productTypeId, int productNum) {
         sb.append(String.format("%d %s %d %d %d\n", droneId, commandTag, warehouseId, productTypeId, productNum));
+        this.commandNum++;
+    }
+    
+    /**
+     * Clears the CommandLog
+     */
+    public void clear() {
+        this.sb = new StringBuilder();
+        this.commandNum = 0;
     }
 
     public static CommandLog getInstance() {
@@ -70,13 +83,13 @@ public class CommandLog {
 
         private static final CommandLog INSTANCE = new CommandLog();
     }
-    
+
     /**
-     * 
+     *
      * @return the commands in this CommandLog
      */
     public String getCommands() {
-        return sb.toString();
+        return String.valueOf(this.commandNum) + "\n" + sb.toString();
     }
 
     public static enum CommandTag {

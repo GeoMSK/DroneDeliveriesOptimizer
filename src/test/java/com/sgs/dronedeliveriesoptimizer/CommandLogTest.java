@@ -47,11 +47,13 @@ public class CommandLogTest {
         cm.wait(13, 14);
 
         try (BufferedReader br = new BufferedReader(new StringReader(cm.getCommands()))) {
+            assertEquals("4", br.readLine());
             assertEquals("1 L 2 3 4", br.readLine());
             assertEquals("5 U 6 7 8", br.readLine());
             assertEquals("9 D 10 11 12", br.readLine());
             assertEquals("13 W 14", br.readLine());
         }
-
+        cm.clear();
+        assertEquals("0\n", cm.getCommands());
     }
 }
