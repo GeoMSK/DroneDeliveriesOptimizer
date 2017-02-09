@@ -1,5 +1,8 @@
 package com.sgs.dronedeliveriesoptimizer;
 
+import com.sgs.dronedeliveriesoptimizer.exceptions.DroneActionException;
+import java.util.HashMap;
+
 /**
  *
  * @author George Mantakos
@@ -9,6 +12,7 @@ public class Order {
     private final Position deliveryPos;
     private final int productsNo;
     private final int[] productTypes;
+    private HashMap<Integer, Integer> productQuantityPerType;
 
     /**
      * 
@@ -20,6 +24,20 @@ public class Order {
         this.deliveryPos = deliveryPos;
         this.productsNo = productsNo;
         this.productTypes = productTypes;
+        
+        for (int i = 0; i < productsNo; i++) {
+           int typeId = productTypes[i];
+            Integer quantity = productQuantityPerType.get(typeId);
+            if (quantity == null) {
+                productQuantityPerType.put(typeId, 1);
+            } else {
+                productQuantityPerType.compute(typeId, (k, v) -> {
+                    return v+1;
+                });
+            }
+           
+            
+        }
     }
 
     /**
@@ -44,6 +62,33 @@ public class Order {
      */
     public int[] getProductTypes() {
         return productTypes;
+    }
+    
+    /**
+     * Products arrived for this order, remove them from list
+     * 
+     * @param productTypeId the id of the type of the product
+     * @param productNum the number of products to pick up
+     */
+    public void productsArrivedAction(int productTypeId, int productNum) {
+        if (!productQuantityPerType.containsKey(productTypeId)) {
+            throw new DroneActionException("productTypeId " + productTypeId + " is not contained in this order");
+        }
+        if (productQuantityPerType.get(productTypeId) != productNum) {
+            throw new DroneActionException("Quantity of productTypeId " + productTypeId + " does not match the "
+                    + "quantity requested by this order");
+        }
+        productQuantityPerType.remove(productTypeId);
+        if (productQuantityPerType.isEmpty()) {
+            markComplete();
+        }
+    }
+    
+    /**
+     * This should be called during simulation when the order gets completed
+     */
+    private void markComplete() {
+        // TODO: implement
     }
 
 }
