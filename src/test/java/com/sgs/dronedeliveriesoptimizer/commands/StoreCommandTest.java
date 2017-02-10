@@ -45,14 +45,12 @@ public class StoreCommandTest {
         Drone drone = new Drone(new Position(0, 0));
         { // this is just to load the drone, it is tested in LoadCommandTest
             Warehouse warehouse = new Warehouse(new Position(0, 0), new int[]{0, 5, 0});
-            LoadCommand loadCommand = new LoadCommand(drone, warehouse, 1, 5);
-            drone.addCommand(loadCommand);
+            drone.addLoadCommand(warehouse, 1, 5);
             drone.step(1);
         }
 
         Warehouse warehouse = new Warehouse(new Position(0, 0), new int[]{0, 0, 0});
-        StoreCommand storeCommand = new StoreCommand(drone, warehouse, 1, 5);
-        drone.addCommand(storeCommand);
+        drone.addStoreCommand(warehouse, 1, 5);
 
         assertThat(warehouse.getProducts()[0], is(0));
         assertThat(warehouse.getProducts()[1], is(0));
@@ -75,14 +73,12 @@ public class StoreCommandTest {
         Drone drone = new Drone(new Position(0, 0));
         { // this is just to load the drone, it is tested in LoadCommandTest
             Warehouse warehouse = new Warehouse(new Position(0, 0), new int[]{0, 5, 0});
-            LoadCommand loadCommand = new LoadCommand(drone, warehouse, 1, 5);
-            drone.addCommand(loadCommand);
+            drone.addLoadCommand(warehouse, 1, 5);
             drone.step(1);
         }
 
         Warehouse warehouse = new Warehouse(new Position(0, 0), new int[]{0, 0, 0});
-        StoreCommand storeCommand = new StoreCommand(drone, warehouse, 1, 6);
-        drone.addCommand(storeCommand);
+        drone.addStoreCommand(warehouse, 1, 6);
 
         drone.step(1);
     }
@@ -92,14 +88,12 @@ public class StoreCommandTest {
         Drone drone = new Drone(new Position(0, 0));
         { // this is just to load the drone, it is tested in LoadCommandTest
             Warehouse warehouse = new Warehouse(new Position(0, 0), new int[]{0, 5, 0});
-            LoadCommand loadCommand = new LoadCommand(drone, warehouse, 1, 5);
-            drone.addCommand(loadCommand);
+            drone.addLoadCommand(warehouse, 1, 5);
             drone.step(1);
         }
 
         Warehouse warehouse = new Warehouse(new Position(0, 0), new int[]{0, 0, 0});
-        StoreCommand storeCommand = new StoreCommand(drone, warehouse, 4, 6);
-        drone.addCommand(storeCommand);
+        drone.addStoreCommand(warehouse, 4, 6);
 
         drone.step(1);
     }
@@ -109,14 +103,12 @@ public class StoreCommandTest {
         Drone drone = new Drone(new Position(0, 0));
         { // this is just to load the drone, it is tested in LoadCommandTest
             Warehouse warehouse = new Warehouse(new Position(0, 0), new int[]{0, 5, 0});
-            LoadCommand loadCommand = new LoadCommand(drone, warehouse, 1, 5);
-            drone.addCommand(loadCommand);
+            drone.addLoadCommand(warehouse, 1, 5);
             drone.step(1);
         }
 
         Warehouse warehouse = new Warehouse(new Position(0, 0), new int[]{0, 0, 0});
-        StoreCommand storeCommand = new StoreCommand(drone, warehouse, 2, 6);
-        drone.addCommand(storeCommand);
+        drone.addStoreCommand(warehouse, 2, 6);
 
         drone.step(1);
     }

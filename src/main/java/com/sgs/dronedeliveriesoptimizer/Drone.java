@@ -1,6 +1,10 @@
 package com.sgs.dronedeliveriesoptimizer;
 
 import com.sgs.dronedeliveriesoptimizer.commands.Command;
+import com.sgs.dronedeliveriesoptimizer.commands.DeliverCommand;
+import com.sgs.dronedeliveriesoptimizer.commands.LoadCommand;
+import com.sgs.dronedeliveriesoptimizer.commands.StoreCommand;
+import com.sgs.dronedeliveriesoptimizer.commands.WaitCommand;
 import com.sgs.dronedeliveriesoptimizer.exceptions.DroneActionException;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -98,7 +102,7 @@ public class Drone {
      *
      * @param command the command to add
      */
-    public void addCommand(Command command) {
+    private void addCommand(Command command) {
         commandList.add(command);
     }
 
@@ -137,6 +141,48 @@ public class Drone {
         if (currentWeight > MAX_WEIGHT) {
             throw new DroneActionException("Drone weight exceeded maximum allowed weight");
         }
+    }
+
+    /**
+     * Adds a load command to this drone
+     *
+     * @param warehouse the warehouse that this command will be performed
+     * @param productTypeId the type id of the product to load to the drone
+     * @param productNum how many products to load to the drone
+     */
+    public void addLoadCommand(Warehouse warehouse, int productTypeId, int productNum) {
+        addCommand(new LoadCommand(this, warehouse, productTypeId, productNum));
+    }
+
+    /**
+     * Adds a store command to this drone
+     *
+     * @param warehouse the warehouse that this command will be performed
+     * @param productTypeId the type id of the product to store to the warehouse
+     * @param productNum how many products to store to the warehouse
+     */
+    public void addStoreCommand(Warehouse warehouse, int productTypeId, int productNum) {
+        addCommand(new StoreCommand(this, warehouse, productTypeId, productNum));
+    }
+
+    /**
+     * Adds a deliver command to this drone
+     *
+     * @param order the order associated with this command
+     * @param productTypeId the type id of the product to deliver
+     * @param productNum how many products to deliver
+     */
+    public void addDeliverCommand(Order order, int productTypeId, int productNum) {
+        addCommand(new DeliverCommand(this, order, productTypeId, productNum));
+    }
+
+    /**
+     * Adds a wait command to this drone
+     *
+     * @param turns how many turns to wait
+     */
+    public void addWaitCommand(int turns) {
+        addCommand(new WaitCommand(this, turns));
     }
 
     /**
@@ -255,7 +301,7 @@ public class Drone {
     }
 
     /**
-     * 
+     *
      * @return the number of turns this drone needs to complete all its commands
      */
     public int getTotalTurns() {

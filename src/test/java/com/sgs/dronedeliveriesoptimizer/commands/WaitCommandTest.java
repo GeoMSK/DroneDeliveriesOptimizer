@@ -40,8 +40,7 @@ public class WaitCommandTest {
     @Test
     public void test() {
         Drone drone = new Drone(new Position(0, 0));
-        WaitCommand waitCommand = new WaitCommand(drone, 3);
-        drone.addCommand(waitCommand);
+        drone.addWaitCommand(3);
 
         assertFalse(drone.step(1));
         assertFalse(drone.step(2));

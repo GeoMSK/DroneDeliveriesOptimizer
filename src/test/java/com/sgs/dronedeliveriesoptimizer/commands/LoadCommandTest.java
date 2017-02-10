@@ -44,8 +44,7 @@ public class LoadCommandTest {
     public void test() {
         Drone drone = new Drone(new Position(0, 0));
         Warehouse warehouse = new Warehouse(new Position(0, 1), new int[]{6, 0, 0});
-        LoadCommand loadCommand = new LoadCommand(drone, warehouse, 0, 5);
-        drone.addCommand(loadCommand);
+        drone.addLoadCommand(warehouse, 0, 5);
 
         assertThat(drone.getCurrentWeight(), is(0));
         assertThat(warehouse.getProducts()[0], is(6));
@@ -60,8 +59,7 @@ public class LoadCommandTest {
     public void testNotEnoughItems() {
         Drone drone = new Drone(new Position(0, 0));
         Warehouse warehouse = new Warehouse(new Position(0, 0), new int[]{6, 0, 0});
-        LoadCommand loadCommand = new LoadCommand(drone, warehouse, 0, 7);
-        drone.addCommand(loadCommand);
+        drone.addLoadCommand(warehouse, 0, 7);
 
         drone.step(1);
     }
@@ -70,8 +68,7 @@ public class LoadCommandTest {
     public void testNonExistentitem() {
         Drone drone = new Drone(new Position(0, 0));
         Warehouse warehouse = new Warehouse(new Position(0, 0), new int[]{6, 0, 0});
-        LoadCommand loadCommand = new LoadCommand(drone, warehouse, 10, 2);
-        drone.addCommand(loadCommand);
+        drone.addLoadCommand(warehouse, 10, 2);
 
         drone.step(1);
     }
@@ -80,8 +77,7 @@ public class LoadCommandTest {
     public void testItemNotInWarehouse() {
         Drone drone = new Drone(new Position(0, 0));
         Warehouse warehouse = new Warehouse(new Position(0, 0), new int[]{6, 0, 0});
-        LoadCommand loadCommand = new LoadCommand(drone, warehouse, 1, 2);
-        drone.addCommand(loadCommand);
+        drone.addLoadCommand(warehouse, 1, 2);
 
         drone.step(1);
     }

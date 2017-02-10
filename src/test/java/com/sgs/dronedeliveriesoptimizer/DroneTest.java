@@ -48,8 +48,8 @@ public class DroneTest {
         
         Warehouse w1 = new Warehouse(new Position(0, 2), new int[]{6, 0, 0});
         Warehouse w2 = new Warehouse(new Position(0, 5), new int[]{6, 4, 0});
-        drone.addCommand(new LoadCommand(drone, w1, 0, 1));
-        drone.addCommand(new LoadCommand(drone, w2, 0, 1));
+        drone.addLoadCommand(w1, 0, 1);
+        drone.addLoadCommand(w2, 0, 1);
         
         assertThat(drone.getTotalTurns(), is(3+4));
         

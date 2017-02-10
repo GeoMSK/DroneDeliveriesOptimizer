@@ -46,13 +46,11 @@ public class DeliverCommandTest {
         Drone drone = new Drone(new Position(0, 0));
         { // this is just to load the drone, it is tested in LoadCommandTest
             Warehouse warehouse = new Warehouse(new Position(0, 0), new int[]{0, 5, 0});
-            LoadCommand loadCommand = new LoadCommand(drone, warehouse, 1, 5);
-            drone.addCommand(loadCommand);
+            drone.addLoadCommand(warehouse, 1, 5);
             drone.step(1);
         }
         Order order = new Order(new Position(0, 1), 5, new int[]{1, 1, 1, 1, 1});
-        DeliverCommand deliverCommand = new DeliverCommand(drone, order, 1, 5);
-        drone.addCommand(deliverCommand);
+        drone.addDeliverCommand(order, 1, 5);
 
         assertFalse(order.isCompleted());
         assertThat(order.getTurnCompleted(), is(-1));
@@ -74,14 +72,14 @@ public class DeliverCommandTest {
         Drone drone = new Drone(new Position(0, 0));
         { // this is just to load the drone, it is tested in LoadCommandTest
             Warehouse warehouse = new Warehouse(new Position(0, 0), new int[]{0, 5, 7});
-            drone.addCommand(new LoadCommand(drone, warehouse, 1, 5));
-            drone.addCommand(new LoadCommand(drone, warehouse, 2, 7));
+            drone.addLoadCommand(warehouse, 1, 5);
+            drone.addLoadCommand(warehouse, 2, 7);
             drone.step(++s);
             drone.step(++s);
         }
         Order order = new Order(new Position(0, 1), 12, new int[]{1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2});
-        drone.addCommand(new DeliverCommand(drone, order, 1, 5));
-        drone.addCommand(new DeliverCommand(drone, order, 2, 7));
+        drone.addDeliverCommand(order, 1, 5);
+        drone.addDeliverCommand(order, 2, 7);
 
         assertFalse(order.isCompleted());
         assertThat(order.getTurnCompleted(), is(-1));
@@ -113,13 +111,11 @@ public class DeliverCommandTest {
         Drone drone = new Drone(new Position(0, 0));
         { // this is just to load the drone, it is tested in LoadCommandTest
             Warehouse warehouse = new Warehouse(new Position(0, 0), new int[]{0, 5, 0});
-            LoadCommand loadCommand = new LoadCommand(drone, warehouse, 1, 5);
-            drone.addCommand(loadCommand);
+            drone.addLoadCommand(warehouse, 1, 5);
             drone.step(1);
         }
         Order order = new Order(new Position(0, 1), 5, new int[]{1, 1, 1, 1, 1});
-        DeliverCommand deliverCommand = new DeliverCommand(drone, order, 5, 5);
-        drone.addCommand(deliverCommand);
+        drone.addDeliverCommand(order, 5, 5);
 
         drone.step(++s);
         drone.step(++s);
@@ -131,13 +127,11 @@ public class DeliverCommandTest {
         Drone drone = new Drone(new Position(0, 0));
         { // this is just to load the drone, it is tested in LoadCommandTest
             Warehouse warehouse = new Warehouse(new Position(0, 0), new int[]{0, 5, 0});
-            LoadCommand loadCommand = new LoadCommand(drone, warehouse, 1, 5);
-            drone.addCommand(loadCommand);
+            drone.addLoadCommand(warehouse, 1, 5);
             drone.step(++s);
         }
         Order order = new Order(new Position(0, 1), 5, new int[]{1, 1, 1, 1, 1});
-        DeliverCommand deliverCommand = new DeliverCommand(drone, order, 0, 5);
-        drone.addCommand(deliverCommand);
+        drone.addDeliverCommand(order, 0, 5);
 
         drone.step(++s);
         drone.step(++s);
@@ -149,13 +143,11 @@ public class DeliverCommandTest {
         Drone drone = new Drone(new Position(0, 0));
         { // this is just to load the drone, it is tested in LoadCommandTest
             Warehouse warehouse = new Warehouse(new Position(0, 0), new int[]{0, 5, 0});
-            LoadCommand loadCommand = new LoadCommand(drone, warehouse, 1, 5);
-            drone.addCommand(loadCommand);
+            drone.addLoadCommand(warehouse, 1, 5);
             drone.step(++s);
         }
         Order order = new Order(new Position(0, 1), 5, new int[]{1, 1, 1, 1, 1});
-        DeliverCommand deliverCommand = new DeliverCommand(drone, order, 1, 6);
-        drone.addCommand(deliverCommand);
+        drone.addDeliverCommand(order, 1, 6);
 
         drone.step(++s);
         drone.step(++s);
