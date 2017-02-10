@@ -19,6 +19,8 @@ public class WaitCommandTest {
 
     @BeforeClass
     public static void setUpClass() {
+        Drone.setMaxWeight(10);
+        Drone.setProductWeights(new int[]{1, 2, 3});
     }
 
     @AfterClass
@@ -36,15 +38,13 @@ public class WaitCommandTest {
     @Test
     public void test() {
         Drone drone = new Drone();
-        Drone.setMaxWeight(10);
-        Drone.setProductWeights(new int[]{1, 2, 3});
-        
         WaitCommand waitCommand = new WaitCommand(drone, 3);
         drone.addCommand(waitCommand);
-        assertFalse(drone.step());
-        assertFalse(drone.step());
-        assertTrue(drone.step());
-        assertTrue(drone.step());
+
+        assertFalse(drone.step(1));
+        assertFalse(drone.step(2));
+        assertTrue(drone.step(3));
+        assertTrue(drone.step(4));
     }
 
 }

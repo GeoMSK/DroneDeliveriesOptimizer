@@ -27,19 +27,20 @@ public class Drone {
      * Executes a simulation step for this drone. Executes a simulation step for the current running command until there
      * are no commands left.
      *
+     * @param simulationStep the number of this step from the beginning of the simulation
      * @return true if there are no more commands to execute, false otherwise
      */
-    public boolean step() {
+    public boolean step(int simulationStep) {
         if (currentCommand == null && !commandList.isEmpty()) {
             // no running command, get one from the command list
             currentCommand = commandList.pop();
-        } else if (currentCommand == null){
+        } else if (currentCommand == null) {
             // there are no commands in the command list for this drone
             return true;
         }
 
         // perform a step for the current command
-        if (currentCommand.step()) {
+        if (currentCommand.step(simulationStep)) {
             // running command finished after this step, get a new command
             Command newCmd = commandList.poll();
             if (newCmd == null) {
@@ -142,6 +143,22 @@ public class Drone {
      */
     public int getCurrentWeight() {
         return currentWeight;
+    }
+
+    /**
+     *
+     * @return true if this drone does not carry anything
+     */
+    public boolean isEmpty() {
+        return inventory.isEmpty();
+    }
+
+    /**
+     *
+     * @return this drone's inventory
+     */
+    public HashMap<Integer, Integer> getInventory() {
+        return inventory;
     }
 
 }

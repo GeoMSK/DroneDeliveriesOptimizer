@@ -12,7 +12,8 @@ public class Order {
     private final Position deliveryPos;
     private final int productsNo;
     private final int[] productTypes;
-    private final HashMap<Integer, Integer> productQuantityPerType;
+    private final HashMap<Integer, Integer> remainingProductQuantityPerType;
+    private int turnCompleted;
 
     /**
      *
@@ -24,15 +25,15 @@ public class Order {
         this.deliveryPos = deliveryPos;
         this.productsNo = productsNo;
         this.productTypes = productTypes;
-        this.productQuantityPerType = new HashMap<>();
+        this.remainingProductQuantityPerType = new HashMap<>();
 
         for (int i = 0; i < productsNo; i++) {
             int typeId = productTypes[i];
-            Integer quantity = productQuantityPerType.get(typeId);
+            Integer quantity = remainingProductQuantityPerType.get(typeId);
             if (quantity == null) {
-                productQuantityPerType.put(typeId, 1);
+                remainingProductQuantityPerType.put(typeId, 1);
             } else {
-                productQuantityPerType.compute(typeId, (k, v) -> {
+                remainingProductQuantityPerType.compute(typeId, (k, v) -> {
                     return v + 1;
                 });
             }
@@ -64,30 +65,55 @@ public class Order {
     }
 
     /**
+     * 
+     * @return the remaining product quantity per type
+     */
+    public HashMap<Integer, Integer> getProductQuantityPerType() {
+        return remainingProductQuantityPerType;
+    }
+
+    /**
      * Products arrived for this order, remove them from list
      *
      * @param productTypeId the id of the type of the product
      * @param productNum the number of products to pick up
+     * @param simulationStep the number of this step from the beginning of the simulation
      */
-    public void productsArrivedAction(int productTypeId, int productNum) {
-        if (!productQuantityPerType.containsKey(productTypeId)) {
+    public void productsArrivedAction(int productTypeId, int productNum, int simulationStep) {
+        if (!remainingProductQuantityPerType.containsKey(productTypeId)) {
             throw new DroneActionException("productTypeId " + productTypeId + " is not contained in this order");
         }
-        if (productQuantityPerType.get(productTypeId) != productNum) {
+        if (remainingProductQuantityPerType.get(productTypeId) != productNum) {
             throw new DroneActionException("Quantity of productTypeId " + productTypeId + " does not match the "
                     + "quantity requested by this order");
         }
-        productQuantityPerType.remove(productTypeId);
-        if (productQuantityPerType.isEmpty()) {
-            markComplete();
+        remainingProductQuantityPerType.remove(productTypeId);
+        if (remainingProductQuantityPerType.isEmpty()) {
+            markComplete(simulationStep);
         }
     }
 
     /**
      * This should be called during simulation when the order gets completed
      */
-    private void markComplete() {
-        // TODO: implement
+    private void markComplete(int simulationStep) {
+        turnCompleted = simulationStep;
+    }
+    
+    /**
+     * 
+     * @return true if this order is completed
+     */
+    public boolean isCompleted() {
+        return remainingProductQuantityPerType.isEmpty();
+    }
+
+    /**
+     * 
+     * @return the turn that this order was completed or -1 if this order is not complete yet
+     */
+    public int getTurnCompleted() {
+        return isCompleted() ? turnCompleted : -1;
     }
 
 }

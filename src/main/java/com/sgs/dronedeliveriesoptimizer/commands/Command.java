@@ -10,6 +10,7 @@ public abstract class Command {
 
     protected final Drone drone;
     protected int turnsRemaining;
+    protected int simulationStep;
 
     /**
      *
@@ -25,9 +26,11 @@ public abstract class Command {
      * Executes a simulation step for this command, if this command if finishes during this step 
      * {@link #performAction() } is called
      *
+     * @param simulationStep the number of this step from the beginning of the simulation
      * @return true if this command finishes, false if more steps are needed
      */
-    public boolean step() {
+    public boolean step(int simulationStep) {
+        this.simulationStep = simulationStep;
         if (--turnsRemaining == 0) {
             performAction();
             return true;

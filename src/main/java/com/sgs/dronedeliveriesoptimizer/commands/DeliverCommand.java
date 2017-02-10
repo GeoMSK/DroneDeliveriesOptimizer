@@ -9,9 +9,8 @@ import com.sgs.dronedeliveriesoptimizer.Order;
  */
 public class DeliverCommand extends Command{
     private final Order order;
-    private int productTypeId;
-    private int productNum;
-    
+    private final int productTypeId;
+    private final int productNum;
 
     /**
      * 
@@ -23,12 +22,14 @@ public class DeliverCommand extends Command{
      */
     public DeliverCommand(Drone drone, Order order, int productTypeId, int productNum, int turns) {
         super(drone, turns);
+        this.productTypeId = productTypeId;
+        this.productNum = productNum;
         this.order = order;
     }
 
     @Override
     protected void performAction() {
-        order.productsArrivedAction(productTypeId, productNum);
+        order.productsArrivedAction(productTypeId, productNum, simulationStep);
         drone.unload(productTypeId, productNum);
     }
     
