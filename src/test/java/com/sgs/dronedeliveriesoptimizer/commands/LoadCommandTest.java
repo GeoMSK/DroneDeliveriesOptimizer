@@ -25,6 +25,7 @@ public class LoadCommandTest {
     public static void setUpClass() {
         Drone.setMaxWeight(10);
         Drone.setProductWeights(new int[]{1, 2, 3});
+        Drone.setMAX_TURNS(100);
     }
 
     @AfterClass
@@ -41,11 +42,11 @@ public class LoadCommandTest {
 
     @Test
     public void test() {
-        Drone drone = new Drone();
-        Warehouse warehouse = new Warehouse(new Position(0, 0), new int[]{6, 0, 0});
-        LoadCommand loadCommand = new LoadCommand(drone, warehouse, 0, 5, 2);
+        Drone drone = new Drone(new Position(0, 0));
+        Warehouse warehouse = new Warehouse(new Position(0, 1), new int[]{6, 0, 0});
+        LoadCommand loadCommand = new LoadCommand(drone, warehouse, 0, 5);
         drone.addCommand(loadCommand);
-        
+
         assertThat(drone.getCurrentWeight(), is(0));
         assertThat(warehouse.getProducts()[0], is(6));
         assertFalse(drone.step(1));
@@ -54,34 +55,34 @@ public class LoadCommandTest {
         assertThat(drone.getCurrentWeight(), is(5));
         assertThat(warehouse.getProducts()[0], is(1));
     }
-    
+
     @Test(expected = DroneActionException.class)
     public void testNotEnoughItems() {
-        Drone drone = new Drone();
+        Drone drone = new Drone(new Position(0, 0));
         Warehouse warehouse = new Warehouse(new Position(0, 0), new int[]{6, 0, 0});
-        LoadCommand loadCommand = new LoadCommand(drone, warehouse, 0, 7, 1);
+        LoadCommand loadCommand = new LoadCommand(drone, warehouse, 0, 7);
         drone.addCommand(loadCommand);
-        
+
         drone.step(1);
     }
-    
+
     @Test(expected = DroneActionException.class)
     public void testNonExistentitem() {
-        Drone drone = new Drone();
+        Drone drone = new Drone(new Position(0, 0));
         Warehouse warehouse = new Warehouse(new Position(0, 0), new int[]{6, 0, 0});
-        LoadCommand loadCommand = new LoadCommand(drone, warehouse, 10, 2, 1);
+        LoadCommand loadCommand = new LoadCommand(drone, warehouse, 10, 2);
         drone.addCommand(loadCommand);
-        
+
         drone.step(1);
     }
-    
+
     @Test(expected = DroneActionException.class)
     public void testItemNotInWarehouse() {
-        Drone drone = new Drone();
+        Drone drone = new Drone(new Position(0, 0));
         Warehouse warehouse = new Warehouse(new Position(0, 0), new int[]{6, 0, 0});
-        LoadCommand loadCommand = new LoadCommand(drone, warehouse, 1, 2, 1);
+        LoadCommand loadCommand = new LoadCommand(drone, warehouse, 1, 2);
         drone.addCommand(loadCommand);
-        
+
         drone.step(1);
     }
 

@@ -1,5 +1,6 @@
 package com.sgs.dronedeliveriesoptimizer;
 
+import com.sgs.dronedeliveriesoptimizer.commands.LoadCommand;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
@@ -16,6 +17,7 @@ public class Simulator {
     private final Warehouse[] warehouses;
     private final Order[] orders;
     private final String commandLog;
+    private final Drone[] drones;
     private int commandNo;
 
     public Simulator(SimulationParameters simulationParameters, int[] productWeights, Warehouse[] warehouses,
@@ -25,6 +27,7 @@ public class Simulator {
         this.warehouses = warehouses;
         this.orders = orders;
         this.commandLog = commandLog;
+        this.drones = new Drone[simulationParameters.getDrones()];
     }
 
     public void simulate() throws IOException {
@@ -38,6 +41,8 @@ public class Simulator {
                 String tag = scanner.next();
                 switch (tag) {
                     case "L":
+                        //new LoadCommand(getDrone(droneId), warehouses[scanner.nextInt()], scanner.nextInt(), scanner.nextInt());
+
                         break;
                     case "U":
                         break;
@@ -52,5 +57,18 @@ public class Simulator {
 
             }
         }
+    }
+
+    /**
+     * Get drone with given id
+     *
+     * @param id the id of the drone to get
+     * @return the {@link Drone}
+     */
+    private Drone getDrone(int id) {
+        if (drones[id] == null) {
+            drones[id] = new Drone(new Position(0, 0));
+        }
+        return drones[id];
     }
 }

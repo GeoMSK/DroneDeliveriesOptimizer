@@ -26,6 +26,7 @@ public class DeliverCommandTest {
     public static void setUpClass() {
         Drone.setMaxWeight(31);
         Drone.setProductWeights(new int[]{1, 2, 3});
+        Drone.setMAX_TURNS(100);
     }
 
     @AfterClass
@@ -42,15 +43,15 @@ public class DeliverCommandTest {
 
     @Test
     public void testOneType() {
-        Drone drone = new Drone();
+        Drone drone = new Drone(new Position(0, 0));
         { // this is just to load the drone, it is tested in LoadCommandTest
-            Warehouse warehouse = new Warehouse(new Position(0, 1), new int[]{0, 5, 0});
-            LoadCommand loadCommand = new LoadCommand(drone, warehouse, 1, 5, 1);
+            Warehouse warehouse = new Warehouse(new Position(0, 0), new int[]{0, 5, 0});
+            LoadCommand loadCommand = new LoadCommand(drone, warehouse, 1, 5);
             drone.addCommand(loadCommand);
             drone.step(1);
         }
-        Order order = new Order(new Position(1, 1), 5, new int[]{1, 1, 1, 1, 1});
-        DeliverCommand deliverCommand = new DeliverCommand(drone, order, 1, 5, 1);
+        Order order = new Order(new Position(0, 1), 5, new int[]{1, 1, 1, 1, 1});
+        DeliverCommand deliverCommand = new DeliverCommand(drone, order, 1, 5);
         drone.addCommand(deliverCommand);
 
         assertFalse(order.isCompleted());
@@ -59,27 +60,28 @@ public class DeliverCommandTest {
         assertArrayEquals(order.getProductTypes(), new int[]{1, 1, 1, 1, 1});
         assertThat(order.getProductQuantityPerType().get(1), is(5));
 
-        assertTrue(drone.step(2));
+        assertFalse(drone.step(2));
+        assertTrue(drone.step(3));
 
         assertTrue(order.isCompleted());
         assertTrue(order.getProductQuantityPerType().isEmpty());
-        assertThat(order.getTurnCompleted(), is(2));
+        assertThat(order.getTurnCompleted(), is(3));
     }
 
     @Test
     public void testTwoTypes() {
         int s = 0;
-        Drone drone = new Drone();
+        Drone drone = new Drone(new Position(0, 0));
         { // this is just to load the drone, it is tested in LoadCommandTest
-            Warehouse warehouse = new Warehouse(new Position(0, 1), new int[]{0, 5, 7});
-            drone.addCommand(new LoadCommand(drone, warehouse, 1, 5, 1));
-            drone.addCommand(new LoadCommand(drone, warehouse, 2, 7, 1));
+            Warehouse warehouse = new Warehouse(new Position(0, 0), new int[]{0, 5, 7});
+            drone.addCommand(new LoadCommand(drone, warehouse, 1, 5));
+            drone.addCommand(new LoadCommand(drone, warehouse, 2, 7));
             drone.step(++s);
             drone.step(++s);
         }
-        Order order = new Order(new Position(1, 1), 12, new int[]{1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2});
-        drone.addCommand(new DeliverCommand(drone, order, 1, 5, 1));
-        drone.addCommand(new DeliverCommand(drone, order, 2, 7, 1));
+        Order order = new Order(new Position(0, 1), 12, new int[]{1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2});
+        drone.addCommand(new DeliverCommand(drone, order, 1, 5));
+        drone.addCommand(new DeliverCommand(drone, order, 2, 7));
 
         assertFalse(order.isCompleted());
         assertThat(order.getTurnCompleted(), is(-1));
@@ -88,6 +90,7 @@ public class DeliverCommandTest {
         assertThat(order.getProductQuantityPerType().get(1), is(5));
         assertThat(order.getProductQuantityPerType().get(2), is(7));
 
+        assertFalse(drone.step(++s));
         assertFalse(drone.step(++s));
 
         assertFalse(order.isCompleted());
@@ -106,50 +109,56 @@ public class DeliverCommandTest {
 
     @Test(expected = DroneActionException.class)
     public void testNonExistentItem() {
-        Drone drone = new Drone();
+        int s = 0;
+        Drone drone = new Drone(new Position(0, 0));
         { // this is just to load the drone, it is tested in LoadCommandTest
-            Warehouse warehouse = new Warehouse(new Position(0, 1), new int[]{0, 5, 0});
-            LoadCommand loadCommand = new LoadCommand(drone, warehouse, 1, 5, 1);
+            Warehouse warehouse = new Warehouse(new Position(0, 0), new int[]{0, 5, 0});
+            LoadCommand loadCommand = new LoadCommand(drone, warehouse, 1, 5);
             drone.addCommand(loadCommand);
             drone.step(1);
         }
-        Order order = new Order(new Position(1, 1), 5, new int[]{1, 1, 1, 1, 1});
-        DeliverCommand deliverCommand = new DeliverCommand(drone, order, 5, 5, 1);
+        Order order = new Order(new Position(0, 1), 5, new int[]{1, 1, 1, 1, 1});
+        DeliverCommand deliverCommand = new DeliverCommand(drone, order, 5, 5);
         drone.addCommand(deliverCommand);
 
-        drone.step(1);
+        drone.step(++s);
+        drone.step(++s);
     }
 
     @Test(expected = DroneActionException.class)
     public void testItemNotInOrder() {
-        Drone drone = new Drone();
+        int s = 0;
+        Drone drone = new Drone(new Position(0, 0));
         { // this is just to load the drone, it is tested in LoadCommandTest
-            Warehouse warehouse = new Warehouse(new Position(0, 1), new int[]{0, 5, 0});
-            LoadCommand loadCommand = new LoadCommand(drone, warehouse, 1, 5, 1);
+            Warehouse warehouse = new Warehouse(new Position(0, 0), new int[]{0, 5, 0});
+            LoadCommand loadCommand = new LoadCommand(drone, warehouse, 1, 5);
             drone.addCommand(loadCommand);
-            drone.step(1);
+            drone.step(++s);
         }
-        Order order = new Order(new Position(1, 1), 5, new int[]{1, 1, 1, 1, 1});
-        DeliverCommand deliverCommand = new DeliverCommand(drone, order, 0, 5, 1);
+        Order order = new Order(new Position(0, 1), 5, new int[]{1, 1, 1, 1, 1});
+        DeliverCommand deliverCommand = new DeliverCommand(drone, order, 0, 5);
         drone.addCommand(deliverCommand);
 
-        drone.step(1);
+        drone.step(++s);
+        drone.step(++s);
     }
 
     @Test(expected = DroneActionException.class)
     public void testIncorrectItemQuantity() {
-        Drone drone = new Drone();
+        int s = 0;
+        Drone drone = new Drone(new Position(0, 0));
         { // this is just to load the drone, it is tested in LoadCommandTest
-            Warehouse warehouse = new Warehouse(new Position(0, 1), new int[]{0, 5, 0});
-            LoadCommand loadCommand = new LoadCommand(drone, warehouse, 1, 5, 1);
+            Warehouse warehouse = new Warehouse(new Position(0, 0), new int[]{0, 5, 0});
+            LoadCommand loadCommand = new LoadCommand(drone, warehouse, 1, 5);
             drone.addCommand(loadCommand);
-            drone.step(1);
+            drone.step(++s);
         }
-        Order order = new Order(new Position(1, 1), 5, new int[]{1, 1, 1, 1, 1});
-        DeliverCommand deliverCommand = new DeliverCommand(drone, order, 1, 6, 1);
+        Order order = new Order(new Position(0, 1), 5, new int[]{1, 1, 1, 1, 1});
+        DeliverCommand deliverCommand = new DeliverCommand(drone, order, 1, 6);
         drone.addCommand(deliverCommand);
 
-        drone.step(1);
+        drone.step(++s);
+        drone.step(++s);
     }
 
 }

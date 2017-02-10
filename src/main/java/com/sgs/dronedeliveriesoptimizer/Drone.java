@@ -13,14 +13,45 @@ public class Drone {
 
     private static int MAX_WEIGHT;
     private static int[] PRODUCT_WEIGHTS;
+    private static int MAX_TURNS;
+    private Position currentPosition;
+    private boolean inTransit;
     private int currentWeight;
     private final HashMap<Integer, Integer> inventory;
     private final LinkedList<Command> commandList;
     private Command currentCommand;
+    private int totalTurns;
 
-    public Drone() {
+    /**
+     *
+     * @param startingPosition the starting position of the drone
+     */
+    public Drone(Position startingPosition) {
+        this.currentPosition = startingPosition;
         this.inventory = new HashMap<>();
         this.commandList = new LinkedList<>();
+        this.inTransit = false;
+        this.totalTurns = 0;
+    }
+
+    /**
+     *
+     * @param turns increase this drone's total turns by this amount
+     */
+    public void increaseTotalTurns(int turns) {
+        this.totalTurns += turns;
+        if (this.totalTurns > MAX_TURNS) {
+            throw new DroneActionException("Drone turns exceeded maximum allowed value");
+        }
+    }
+
+    /**
+     * Updates the drones position
+     *
+     * @param newPosition the new position of the drone
+     */
+    public void updatePosition(Position newPosition) {
+        this.currentPosition = newPosition;
     }
 
     /**
@@ -34,9 +65,14 @@ public class Drone {
         if (currentCommand == null && !commandList.isEmpty()) {
             // no running command, get one from the command list
             currentCommand = commandList.pop();
+            setInTransit(true);
         } else if (currentCommand == null) {
             // there are no commands in the command list for this drone
+            setInTransit(false);
             return true;
+        } else {
+            // there is a current command, may be its first step, set in transit
+            setInTransit(true);
         }
 
         // perform a step for the current command
@@ -50,6 +86,7 @@ public class Drone {
             } else {
                 // set the new command as the running command
                 currentCommand = newCmd;
+                setInTransit(false);
             }
         }
         // if we arrive here then there is a command waiting for a next step
@@ -122,6 +159,22 @@ public class Drone {
 
     /**
      *
+     * @return the maximum allowed turns for a drone. This should be set before the simulation begins
+     */
+    public static int getMAX_TURNS() {
+        return MAX_TURNS;
+    }
+
+    /**
+     *
+     * @param MAX_TURNS the maximum allowed turns for a drone. This should be set before the simulation begins
+     */
+    public static void setMAX_TURNS(int MAX_TURNS) {
+        Drone.MAX_TURNS = MAX_TURNS;
+    }
+
+    /**
+     *
      * @return an array with the product weights
      */
     public static int[] getProductWeights() {
@@ -159,6 +212,54 @@ public class Drone {
      */
     public HashMap<Integer, Integer> getInventory() {
         return inventory;
+    }
+
+    /**
+     *
+     * @return the command list of this drone
+     */
+    public LinkedList<Command> getCommandList() {
+        return commandList;
+    }
+
+    /**
+     * The current position of the drone. <b>This is valid only if {@link #isInTransit() } returns false.</b>
+     * When the drone is in transit it returns the last valid position
+     *
+     * @return the current position of the drone
+     */
+    public Position getCurrentPosition() {
+        return currentPosition;
+    }
+
+    /**
+     * A drone is in transit when it travels between its starting point and a command destination or a previous command
+     * destination which becomes a new starting point and the next destination. {@link #getCurrentPosition() } returns
+     * valid results only when the drone is not in transit. When it is in transit it returns the last valid position
+     *
+     * @param inTransit true if the drone is in transit
+     */
+    public void setInTransit(boolean inTransit) {
+        this.inTransit = inTransit;
+    }
+
+    /**
+     * A drone is in transit when it travels between its starting point and a command destination or a previous command
+     * destination which becomes a new starting point and the next destination. {@link #getCurrentPosition() } returns
+     * valid results only when the drone is not in transit. When it is in transit it returns the last valid position
+     *
+     * @return true if the drone is in transit
+     */
+    public boolean isInTransit() {
+        return inTransit;
+    }
+
+    /**
+     * 
+     * @return the number of turns this drone needs to complete all its commands
+     */
+    public int getTotalTurns() {
+        return totalTurns;
     }
 
 }

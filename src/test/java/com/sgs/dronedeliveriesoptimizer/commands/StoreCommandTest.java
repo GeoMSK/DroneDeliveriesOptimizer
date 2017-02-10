@@ -25,6 +25,7 @@ public class StoreCommandTest {
     public static void setUpClass() {
         Drone.setMaxWeight(10);
         Drone.setProductWeights(new int[]{1, 2, 3});
+        Drone.setMAX_TURNS(100);
     }
 
     @AfterClass
@@ -41,16 +42,16 @@ public class StoreCommandTest {
 
     @Test
     public void test() {
-        Drone drone = new Drone();
+        Drone drone = new Drone(new Position(0, 0));
         { // this is just to load the drone, it is tested in LoadCommandTest
-            Warehouse warehouse = new Warehouse(new Position(0, 1), new int[]{0, 5, 0});
-            LoadCommand loadCommand = new LoadCommand(drone, warehouse, 1, 5, 1);
+            Warehouse warehouse = new Warehouse(new Position(0, 0), new int[]{0, 5, 0});
+            LoadCommand loadCommand = new LoadCommand(drone, warehouse, 1, 5);
             drone.addCommand(loadCommand);
             drone.step(1);
         }
 
         Warehouse warehouse = new Warehouse(new Position(0, 0), new int[]{0, 0, 0});
-        StoreCommand storeCommand = new StoreCommand(drone, warehouse, 1, 5, 1);
+        StoreCommand storeCommand = new StoreCommand(drone, warehouse, 1, 5);
         drone.addCommand(storeCommand);
 
         assertThat(warehouse.getProducts()[0], is(0));
@@ -68,55 +69,55 @@ public class StoreCommandTest {
         assertTrue(drone.isEmpty());
         assertThat(drone.getCurrentWeight(), is(0));
     }
-    
+
     @Test(expected = DroneActionException.class)
     public void testNotEnoughItemsToStore() {
-        Drone drone = new Drone();
+        Drone drone = new Drone(new Position(0, 0));
         { // this is just to load the drone, it is tested in LoadCommandTest
-            Warehouse warehouse = new Warehouse(new Position(0, 1), new int[]{0, 5, 0});
-            LoadCommand loadCommand = new LoadCommand(drone, warehouse, 1, 5, 1);
+            Warehouse warehouse = new Warehouse(new Position(0, 0), new int[]{0, 5, 0});
+            LoadCommand loadCommand = new LoadCommand(drone, warehouse, 1, 5);
             drone.addCommand(loadCommand);
             drone.step(1);
         }
 
         Warehouse warehouse = new Warehouse(new Position(0, 0), new int[]{0, 0, 0});
-        StoreCommand storeCommand = new StoreCommand(drone, warehouse, 1, 6, 1);
+        StoreCommand storeCommand = new StoreCommand(drone, warehouse, 1, 6);
         drone.addCommand(storeCommand);
-        
+
         drone.step(1);
     }
-    
+
     @Test(expected = DroneActionException.class)
     public void testNonExistentItem() {
-        Drone drone = new Drone();
+        Drone drone = new Drone(new Position(0, 0));
         { // this is just to load the drone, it is tested in LoadCommandTest
-            Warehouse warehouse = new Warehouse(new Position(0, 1), new int[]{0, 5, 0});
-            LoadCommand loadCommand = new LoadCommand(drone, warehouse, 1, 5, 1);
+            Warehouse warehouse = new Warehouse(new Position(0, 0), new int[]{0, 5, 0});
+            LoadCommand loadCommand = new LoadCommand(drone, warehouse, 1, 5);
             drone.addCommand(loadCommand);
             drone.step(1);
         }
 
         Warehouse warehouse = new Warehouse(new Position(0, 0), new int[]{0, 0, 0});
-        StoreCommand storeCommand = new StoreCommand(drone, warehouse, 4, 6, 1);
+        StoreCommand storeCommand = new StoreCommand(drone, warehouse, 4, 6);
         drone.addCommand(storeCommand);
-        
+
         drone.step(1);
     }
-    
+
     @Test(expected = DroneActionException.class)
     public void testItemNotInDronesInventory() {
-        Drone drone = new Drone();
+        Drone drone = new Drone(new Position(0, 0));
         { // this is just to load the drone, it is tested in LoadCommandTest
-            Warehouse warehouse = new Warehouse(new Position(0, 1), new int[]{0, 5, 0});
-            LoadCommand loadCommand = new LoadCommand(drone, warehouse, 1, 5, 1);
+            Warehouse warehouse = new Warehouse(new Position(0, 0), new int[]{0, 5, 0});
+            LoadCommand loadCommand = new LoadCommand(drone, warehouse, 1, 5);
             drone.addCommand(loadCommand);
             drone.step(1);
         }
 
         Warehouse warehouse = new Warehouse(new Position(0, 0), new int[]{0, 0, 0});
-        StoreCommand storeCommand = new StoreCommand(drone, warehouse, 2, 6, 1);
+        StoreCommand storeCommand = new StoreCommand(drone, warehouse, 2, 6);
         drone.addCommand(storeCommand);
-        
+
         drone.step(1);
     }
 

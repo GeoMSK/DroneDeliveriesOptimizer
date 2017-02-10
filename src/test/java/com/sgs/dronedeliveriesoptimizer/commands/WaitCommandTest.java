@@ -1,6 +1,7 @@
 package com.sgs.dronedeliveriesoptimizer.commands;
 
 import com.sgs.dronedeliveriesoptimizer.Drone;
+import com.sgs.dronedeliveriesoptimizer.Position;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -21,6 +22,7 @@ public class WaitCommandTest {
     public static void setUpClass() {
         Drone.setMaxWeight(10);
         Drone.setProductWeights(new int[]{1, 2, 3});
+        Drone.setMAX_TURNS(100);
     }
 
     @AfterClass
@@ -37,7 +39,7 @@ public class WaitCommandTest {
 
     @Test
     public void test() {
-        Drone drone = new Drone();
+        Drone drone = new Drone(new Position(0, 0));
         WaitCommand waitCommand = new WaitCommand(drone, 3);
         drone.addCommand(waitCommand);
 
