@@ -9,7 +9,7 @@ import com.sgs.dronedeliveriesoptimizer.Warehouse;
  */
 public class LoadCommand extends Command {
 
-    private Warehouse warehouse;
+    private final Warehouse warehouse;
     private final int productTypeId;
     private final int productNum;
 
@@ -23,6 +23,7 @@ public class LoadCommand extends Command {
      */
     public LoadCommand(Drone drone, Warehouse warehouse, int productTypeId, int productNum, int turns) {
         super(drone, turns);
+        this.warehouse = warehouse;
         this.productTypeId = productTypeId;
         this.productNum = productNum;
     }
