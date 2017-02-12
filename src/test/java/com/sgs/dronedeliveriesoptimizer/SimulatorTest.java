@@ -72,6 +72,9 @@ public class SimulatorTest {
             new Order(new Position(9, 3), 5, new int[]{1, 1, 1, 1, 1})
         };
         CommandLog cl = new CommandLog();
+        // order drone 1 to make the unload in purpose to check sortDroneList() function of Simulation class
+        // choosing drone 1 this way will make the load command (drone 0) to be first in the execution order if 
+        // sortDroneList() is not called
         cl.load(1, 0, 1, 5); // 2 turns
         cl.wait(0, 1); // sync with drone 1 to reach warehouse 1 in the same turn
         cl.load(0, 1, 1, 5); // 4 turns
