@@ -53,4 +53,12 @@ public abstract class Command {
      * This function will be called when the command reaches the last step
      */
     protected abstract void performAction();
+
+    /**
+     * 
+     * @return the turns needed to complete the current command
+     */
+    public int getTurnsRemaining() {
+        return turnsRemaining;
+    }
 }

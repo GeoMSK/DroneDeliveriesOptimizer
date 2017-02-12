@@ -40,7 +40,7 @@ public class CommandLogTest {
      */
     @Test
     public void testCommandLog() throws IOException {
-        CommandLog cm = CommandLog.getInstance();
+        CommandLog cm =new CommandLog();
         cm.load(1, 2, 3, 4);
         cm.unload(5, 6, 7, 8);
         cm.deliver(9, 10, 11, 12);

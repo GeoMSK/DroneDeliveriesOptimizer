@@ -80,6 +80,9 @@ public class Order {
      * @param simulationStep the number of this step from the beginning of the simulation
      */
     public void productsArrivedAction(int productTypeId, int productNum, int simulationStep) {
+        if (remainingProductQuantityPerType.isEmpty()) {
+            throw new DroneActionException("Trying to deliver to a finished order");
+        }
         if (!remainingProductQuantityPerType.containsKey(productTypeId)) {
             throw new DroneActionException("productTypeId " + productTypeId + " is not contained in this order");
         }

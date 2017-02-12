@@ -9,7 +9,7 @@ public class CommandLog {
     private StringBuilder sb;
     private int commandNum;
 
-    private CommandLog() {
+    public CommandLog() {
         this.sb = new StringBuilder();
         this.commandNum = 0;
     }
@@ -73,15 +73,6 @@ public class CommandLog {
     public void clear() {
         this.sb = new StringBuilder();
         this.commandNum = 0;
-    }
-
-    public static CommandLog getInstance() {
-        return CommandsHolder.INSTANCE;
-    }
-
-    private static class CommandsHolder {
-
-        private static final CommandLog INSTANCE = new CommandLog();
     }
 
     /**
