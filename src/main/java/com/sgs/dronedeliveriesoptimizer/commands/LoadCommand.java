@@ -33,7 +33,7 @@ public class LoadCommand extends Command {
     @Override
     protected final void setRemainingTurns() {
         Position startingPosition;
-        Command cmd = drone.getCommandList().peek();
+        Command cmd = getLastNonWaitCommand();
         if (cmd == null) {
             startingPosition = new Position(0, 0);
         } else {

@@ -40,7 +40,7 @@ public class SimulatorTest {
      */
     @Test
     public void testSimulate() throws Exception {
-        SimulationParameters simulationParameters = new SimulationParameters(10, 10, 3, 100, 50);
+        SimulationParameters simulationParameters = new SimulationParameters(10, 10, 2, 100, 50);
         int[] productWeights = {1, 2, 3};
         Warehouse[] warehouses = {
             new Warehouse(new Position(0, 1), new int[]{5, 5, 5}),
@@ -59,6 +59,31 @@ public class SimulatorTest {
         sim.simulate();
 
         assertEquals(14, sim.getTurns());
+    }
+    
+    @Test
+    public void testSameturnLoadUnload() throws Exception {
+        SimulationParameters simulationParameters = new SimulationParameters(10, 10, 2, 100, 50);
+        int[] productWeights = {1, 2, 3};
+        Warehouse[] warehouses = {
+            new Warehouse(new Position(0, 1), new int[]{5, 5, 5}),
+            new Warehouse(new Position(0, 3), new int[]{0, 0, 0})};
+        Order[] orders = {
+            new Order(new Position(9, 3), 5, new int[]{1, 1, 1, 1, 1})
+        };
+        CommandLog cl = new CommandLog();
+        cl.load(1, 0, 1, 5); // 2 turns
+        cl.wait(0, 1); // sync with drone 1 to reach warehouse 1 in the same turn
+        cl.load(0, 1, 1, 5); // 4 turns
+        cl.unload(1, 1, 1, 5); // 3 turns
+        
+        cl.deliver(0, 0, 1, 5); // 10 turns
+
+        Simulator sim = new Simulator(simulationParameters, productWeights, warehouses, orders, cl.getCommands());
+
+        sim.simulate();
+
+        assertEquals(15, sim.getTurns());
     }
 
 }

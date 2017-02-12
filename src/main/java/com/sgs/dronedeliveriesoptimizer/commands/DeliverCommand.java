@@ -3,6 +3,7 @@ package com.sgs.dronedeliveriesoptimizer.commands;
 import com.sgs.dronedeliveriesoptimizer.simobjects.Drone;
 import com.sgs.dronedeliveriesoptimizer.simobjects.Order;
 import com.sgs.dronedeliveriesoptimizer.simobjects.Position;
+import java.util.LinkedList;
 
 /**
  *
@@ -32,7 +33,7 @@ public class DeliverCommand extends Command {
     @Override
     protected final void setRemainingTurns() {
         Position startingPosition;
-        Command cmd = drone.getCommandList().peek();
+        Command cmd = getLastNonWaitCommand();
         if (cmd == null) {
             startingPosition = new Position(0, 0);
         } else {

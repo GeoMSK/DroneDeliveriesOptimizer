@@ -2,6 +2,7 @@ package com.sgs.dronedeliveriesoptimizer.commands;
 
 import com.sgs.dronedeliveriesoptimizer.simobjects.Drone;
 import com.sgs.dronedeliveriesoptimizer.simobjects.Position;
+import java.util.LinkedList;
 
 /**
  *
@@ -60,5 +61,22 @@ public abstract class Command {
      */
     public int getTurnsRemaining() {
         return turnsRemaining;
+    }
+    
+    /**
+     * 
+     * @return the last command that is not a WaitCommand, or null if there is no such command
+     */
+    protected Command getLastNonWaitCommand() {
+        LinkedList<Command> cl = drone.getCommandList();
+        int i = cl.size() - 1;
+        Command cmd = cl.peekLast();
+        while (cmd instanceof WaitCommand) {
+            cmd = cl.get(i);
+            if (--i < 0) {
+                break;
+            }
+        }
+        return cmd;
     }
 }

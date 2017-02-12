@@ -90,6 +90,11 @@ public class Simulator {
         Drone.setProductWeights(productWeights);
     }
 
+    /**
+     * pase the command log and initialize commands and drones
+     *
+     * @throws IOException if there is an error during parsing
+     */
     private void parseCommandLog() throws IOException {
         BufferedReader br = new BufferedReader(new StringReader(commandLog));
         int commandNo = Integer.parseInt(br.readLine());
@@ -118,6 +123,7 @@ public class Simulator {
                 }
             }
         }
+        populateDroneList();
     }
 
     /**
@@ -129,9 +135,22 @@ public class Simulator {
     private Drone getDrone(int id) {
         if (drones[id] == null) {
             drones[id] = new Drone(new Position(0, 0));
-            droneList.add(drones[id]);
         }
         return drones[id];
+    }
+
+    /**
+     * initialize {@link #droneList} with drones from {@link #drones} array, is that order. Note that all drones in the
+     * array must be initialized prior to calling this method
+     */
+    private void populateDroneList() {
+        for (int i = 0; i < drones.length; i++) {
+            Drone d = drones[i];
+            if (d == null) {
+                throw new RuntimeException("There was no command for drone " + i + " so it is not initialized");
+            }
+            droneList.add(d);
+        }
     }
 
     /**
