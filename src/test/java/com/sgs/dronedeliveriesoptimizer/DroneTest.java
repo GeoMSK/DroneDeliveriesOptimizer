@@ -1,5 +1,8 @@
 package com.sgs.dronedeliveriesoptimizer;
 
+import com.sgs.dronedeliveriesoptimizer.simobjects.Warehouse;
+import com.sgs.dronedeliveriesoptimizer.simobjects.Drone;
+import com.sgs.dronedeliveriesoptimizer.simobjects.Position;
 import com.sgs.dronedeliveriesoptimizer.commands.LoadCommand;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -41,18 +44,18 @@ public class DroneTest {
     public void dronePositioning() {
         int s = 0;
         Drone drone = new Drone(new Position(0, 0));
-        
+
         assertThat(drone.getCurrentPosition().getRow(), is(0));
         assertThat(drone.getCurrentPosition().getCol(), is(0));
         assertFalse(drone.isInTransit());
-        
+
         Warehouse w1 = new Warehouse(new Position(0, 2), new int[]{6, 0, 0});
         Warehouse w2 = new Warehouse(new Position(0, 5), new int[]{6, 4, 0});
         drone.addLoadCommand(w1, 0, 1);
         drone.addLoadCommand(w2, 0, 1);
-        
-        assertThat(drone.getTotalTurns(), is(3+4));
-        
+
+        assertThat(drone.getTotalTurns(), is(3 + 4));
+
         assertFalse(drone.step(++s));
         assertThat(drone.getCurrentPosition().getRow(), is(0));
         assertThat(drone.getCurrentPosition().getCol(), is(0));

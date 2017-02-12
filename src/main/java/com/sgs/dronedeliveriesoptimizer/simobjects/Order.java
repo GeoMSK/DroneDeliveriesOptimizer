@@ -1,4 +1,4 @@
-package com.sgs.dronedeliveriesoptimizer;
+package com.sgs.dronedeliveriesoptimizer.simobjects;
 
 import com.sgs.dronedeliveriesoptimizer.exceptions.DroneActionException;
 import java.util.HashMap;
@@ -65,7 +65,7 @@ public class Order {
     }
 
     /**
-     * 
+     *
      * @return the remaining product quantity per type
      */
     public HashMap<Integer, Integer> getProductQuantityPerType() {
@@ -102,9 +102,9 @@ public class Order {
     private void markComplete(int simulationStep) {
         turnCompleted = simulationStep;
     }
-    
+
     /**
-     * 
+     *
      * @return true if this order is completed
      */
     public boolean isCompleted() {
@@ -112,7 +112,7 @@ public class Order {
     }
 
     /**
-     * 
+     *
      * @return the turn that this order was completed or -1 if this order is not complete yet
      */
     public int getTurnCompleted() {

@@ -1,4 +1,4 @@
-package com.sgs.dronedeliveriesoptimizer;
+package com.sgs.dronedeliveriesoptimizer.simobjects;
 
 import com.sgs.dronedeliveriesoptimizer.commands.Command;
 import com.sgs.dronedeliveriesoptimizer.commands.DeliverCommand;
@@ -309,19 +309,19 @@ public class Drone {
     }
 
     /**
-     * 
+     *
      * @return the current command being executed by the drone or null if there is no such command
      */
     public Command getCurrentCommand() {
         return currentCommand;
     }
-    
+
     /**
-     * 
+     *
      * @return the steps needed to complete the current command or -1 if there is no current command
      */
     public int getRemainingCommandSteps() {
-        if(currentCommand == null) {
+        if (currentCommand == null) {
             return -1;
         }
         return currentCommand.getTurnsRemaining();

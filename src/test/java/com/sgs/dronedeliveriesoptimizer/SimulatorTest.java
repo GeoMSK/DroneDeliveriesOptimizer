@@ -1,5 +1,8 @@
 package com.sgs.dronedeliveriesoptimizer;
 
+import com.sgs.dronedeliveriesoptimizer.simobjects.Order;
+import com.sgs.dronedeliveriesoptimizer.simobjects.Warehouse;
+import com.sgs.dronedeliveriesoptimizer.simobjects.Position;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -52,7 +55,7 @@ public class SimulatorTest {
         cl.deliver(0, 0, 0, 5);
         cl.deliver(1, 1, 1, 5);
         Simulator sim = new Simulator(simulationParameters, productWeights, warehouses, orders, cl.getCommands());
-        
+
         sim.simulate();
 
         assertEquals(14, sim.getTurns());

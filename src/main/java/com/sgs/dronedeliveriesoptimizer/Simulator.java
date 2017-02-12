@@ -1,5 +1,9 @@
 package com.sgs.dronedeliveriesoptimizer;
 
+import com.sgs.dronedeliveriesoptimizer.simobjects.Order;
+import com.sgs.dronedeliveriesoptimizer.simobjects.Warehouse;
+import com.sgs.dronedeliveriesoptimizer.simobjects.Drone;
+import com.sgs.dronedeliveriesoptimizer.simobjects.Position;
 import com.sgs.dronedeliveriesoptimizer.commands.StoreCommand;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -67,7 +71,7 @@ public class Simulator {
     private void stepAllDrones() {
         s++;
         Iterator<Drone> it = droneList.iterator();
-        while(it.hasNext()) {
+        while (it.hasNext()) {
             Drone d = it.next();
             if (d.step(s)) {
                 // this drone has no more commands
@@ -131,11 +135,11 @@ public class Simulator {
     }
 
     /**
-     * 
+     *
      * @return the number of turns this simulation took to complete
      */
     public int getTurns() {
         return s;
     }
-    
+
 }

@@ -1,4 +1,4 @@
-package com.sgs.dronedeliveriesoptimizer;
+package com.sgs.dronedeliveriesoptimizer.simobjects;
 
 import com.sgs.dronedeliveriesoptimizer.exceptions.DroneActionException;
 
@@ -56,10 +56,10 @@ public class Warehouse {
         }
         products[productTypeId] -= productNum;
     }
-    
+
     /**
      * Store specified products in this warehouse
-     * 
+     *
      * @param productTypeId the id of the type of the product
      * @param productNum the number of products to store
      */

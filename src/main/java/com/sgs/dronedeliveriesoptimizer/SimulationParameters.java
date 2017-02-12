@@ -37,7 +37,7 @@ public class SimulationParameters {
     }
 
     /**
-     * 
+     *
      * @return the number of columns in the area of the simulation ( 1 ≤ number of columns ≤ 10000)
      */
     public int getColumns() {
@@ -45,7 +45,7 @@ public class SimulationParameters {
     }
 
     /**
-     * 
+     *
      * @return the number of drones available ( 1 ≤ D ≤ 1000)
      */
     public int getDrones() {
@@ -53,7 +53,7 @@ public class SimulationParameters {
     }
 
     /**
-     * 
+     *
      * @return the deadline of the simulation ( 1 ≤ deadline of the simulation ≤ 1000000)
      */
     public int getDeadline() {
@@ -61,7 +61,7 @@ public class SimulationParameters {
     }
 
     /**
-     * 
+     *
      * @return the maximum load of a drone ( 1 ≤ maximum load of a drone ≤ 10000)
      */
     public int getMaximumLoad() {

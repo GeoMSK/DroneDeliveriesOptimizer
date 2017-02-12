@@ -1,7 +1,7 @@
 package com.sgs.dronedeliveriesoptimizer.commands;
 
-import com.sgs.dronedeliveriesoptimizer.Drone;
-import com.sgs.dronedeliveriesoptimizer.Position;
+import com.sgs.dronedeliveriesoptimizer.simobjects.Drone;
+import com.sgs.dronedeliveriesoptimizer.simobjects.Position;
 
 /**
  *
@@ -55,7 +55,7 @@ public abstract class Command {
     protected abstract void performAction();
 
     /**
-     * 
+     *
      * @return the turns needed to complete the current command
      */
     public int getTurnsRemaining() {

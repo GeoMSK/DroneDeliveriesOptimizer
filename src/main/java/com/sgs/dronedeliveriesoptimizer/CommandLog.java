@@ -66,7 +66,7 @@ public class CommandLog {
         sb.append(String.format("%d %s %d %d %d\n", droneId, commandTag, warehouseId, productTypeId, productNum));
         this.commandNum++;
     }
-    
+
     /**
      * Clears the CommandLog
      */

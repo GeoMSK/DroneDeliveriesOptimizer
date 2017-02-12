@@ -1,8 +1,8 @@
 package com.sgs.dronedeliveriesoptimizer.commands;
 
-import com.sgs.dronedeliveriesoptimizer.Drone;
-import com.sgs.dronedeliveriesoptimizer.Position;
-import com.sgs.dronedeliveriesoptimizer.Warehouse;
+import com.sgs.dronedeliveriesoptimizer.simobjects.Drone;
+import com.sgs.dronedeliveriesoptimizer.simobjects.Position;
+import com.sgs.dronedeliveriesoptimizer.simobjects.Warehouse;
 import com.sgs.dronedeliveriesoptimizer.exceptions.DroneActionException;
 import static org.hamcrest.CoreMatchers.*;
 import org.junit.After;

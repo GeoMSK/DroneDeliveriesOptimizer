@@ -1,8 +1,8 @@
 package com.sgs.dronedeliveriesoptimizer.commands;
 
-import com.sgs.dronedeliveriesoptimizer.Drone;
-import com.sgs.dronedeliveriesoptimizer.Position;
-import com.sgs.dronedeliveriesoptimizer.Warehouse;
+import com.sgs.dronedeliveriesoptimizer.simobjects.Drone;
+import com.sgs.dronedeliveriesoptimizer.simobjects.Position;
+import com.sgs.dronedeliveriesoptimizer.simobjects.Warehouse;
 
 /**
  *
@@ -16,7 +16,7 @@ public class LoadCommand extends Command {
 
     /**
      *
-     * 
+     *
      * @param drone the drone to perform this command
      * @param warehouse the warehouse that this command will be performed
      * @param productTypeId the type id of the product to load to the drone
@@ -55,7 +55,7 @@ public class LoadCommand extends Command {
     public Position getResultingPosition() {
         return warehouse.getPosition();
     }
-    
+
     public static void createNewLoadCommand() {
         // TODO:
     }

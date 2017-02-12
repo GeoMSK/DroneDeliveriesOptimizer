@@ -1,4 +1,4 @@
-package com.sgs.dronedeliveriesoptimizer;
+package com.sgs.dronedeliveriesoptimizer.simobjects;
 
 /**
  *

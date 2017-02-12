@@ -1,9 +1,9 @@
 package com.sgs.dronedeliveriesoptimizer.commands;
 
-import com.sgs.dronedeliveriesoptimizer.Drone;
-import com.sgs.dronedeliveriesoptimizer.Order;
-import com.sgs.dronedeliveriesoptimizer.Position;
-import com.sgs.dronedeliveriesoptimizer.Warehouse;
+import com.sgs.dronedeliveriesoptimizer.simobjects.Drone;
+import com.sgs.dronedeliveriesoptimizer.simobjects.Order;
+import com.sgs.dronedeliveriesoptimizer.simobjects.Position;
+import com.sgs.dronedeliveriesoptimizer.simobjects.Warehouse;
 import com.sgs.dronedeliveriesoptimizer.exceptions.DroneActionException;
 import org.junit.After;
 import org.junit.AfterClass;

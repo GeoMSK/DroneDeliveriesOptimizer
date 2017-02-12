@@ -1,5 +1,8 @@
 package com.sgs.dronedeliveriesoptimizer;
 
+import com.sgs.dronedeliveriesoptimizer.simobjects.Order;
+import com.sgs.dronedeliveriesoptimizer.simobjects.Warehouse;
+import com.sgs.dronedeliveriesoptimizer.simobjects.Position;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
