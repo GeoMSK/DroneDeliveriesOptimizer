@@ -23,6 +23,20 @@ public class Warehouse {
     }
 
     /**
+     * Check if this warehouse contains given product type in given quantity
+     *
+     * @param productType product type to check
+     * @param quantity quantity of given product type to check
+     * @return true if this warehouse contains given product type in given quantity
+     */
+    public boolean contains(int productType, int quantity) {
+        if (productType < 0 || productType > products.length - 1 || quantity < 0) {
+            return false;
+        }
+        return products[productType] >= quantity;
+    }
+
+    /**
      *
      * @return the number of products per product type in this warehouse. eg products[0] holds the number of products of
      * type 0

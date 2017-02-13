@@ -12,7 +12,7 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author gmak
+ * @author George Mantakos
  */
 public class SimulatorTest {
 
