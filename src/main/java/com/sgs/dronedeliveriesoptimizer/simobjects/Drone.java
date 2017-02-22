@@ -327,4 +327,11 @@ public class Drone {
         return currentCommand.getTurnsRemaining();
     }
 
+    @Override
+    public String toString() {
+        return "Drone{" + currentPosition + ", inTransit=" + inTransit + ","
+                + " currentWeight=" + currentWeight + "," + " commandList=" + commandList +
+                ", " + currentCommand + ", totalTurns=" + totalTurns + '}';
+    }
+
 }

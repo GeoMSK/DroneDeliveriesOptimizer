@@ -70,4 +70,9 @@ public class Warehouse {
         products[productTypeId] += productNum;
     }
 
+    @Override
+    public String toString() {
+        return "Warehouse{" + "position=" + position + ", products=" + products + '}';
+    }
+
 }

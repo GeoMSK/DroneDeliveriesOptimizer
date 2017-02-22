@@ -119,4 +119,11 @@ public class Order {
         return isCompleted() ? turnCompleted : -1;
     }
 
+    @Override
+    public String toString() {
+        return "Order{" + "deliveryPos=" + deliveryPos + ", productsNo=" + productsNo +
+                ", productTypes=" + productTypes + ", remainingProductQuantityPerType=" + remainingProductQuantityPerType +
+                ", turnCompleted=" + turnCompleted + '}';
+    }
+
 }

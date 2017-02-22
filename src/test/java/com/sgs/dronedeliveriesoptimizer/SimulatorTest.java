@@ -50,17 +50,18 @@ public class SimulatorTest {
             new Order(new Position(9, 3), 5, new int[]{1, 1, 1, 1, 1})
         };
         CommandLog cl = new CommandLog();
-        cl.load(0, 0, 0, 5);
-        cl.load(1, 1, 1, 5);
-        cl.deliver(0, 0, 0, 5);
-        cl.deliver(1, 1, 1, 5);
+        cl.load(0, 0, 0, 5); // 2 turns, now at (0,1)
+        cl.load(1, 1, 1, 5); // 4 turns, now at (0,3)
+        cl.deliver(0, 0, 0, 5); // 10 turns, total 12 turns
+        cl.deliver(1, 1, 1, 5); // 10 turns, total 14 turns
         Simulator sim = new Simulator(simulationParameters, productWeights, warehouses, orders, cl.getCommands());
 
         sim.simulate();
 
+        // Since the 2 drones are moving in parallel, turns are equal to MAX(12,14) = 14
         assertEquals(14, sim.getTurns());
     }
-    
+
     @Test
     public void testSameturnLoadUnload() throws Exception {
         SimulationParameters simulationParameters = new SimulationParameters(10, 10, 2, 100, 50);
@@ -73,13 +74,13 @@ public class SimulatorTest {
         };
         CommandLog cl = new CommandLog();
         // order drone 1 to make the unload in purpose to check sortDroneList() function of Simulation class
-        // choosing drone 1 this way will make the load command (drone 0) to be first in the execution order if 
+        // choosing drone 1 this way will make the load command (drone 0) to be first in the execution order if
         // sortDroneList() is not called
         cl.load(1, 0, 1, 5); // 2 turns
         cl.wait(0, 1); // sync with drone 1 to reach warehouse 1 in the same turn
         cl.load(0, 1, 1, 5); // 4 turns
         cl.unload(1, 1, 1, 5); // 3 turns
-        
+
         cl.deliver(0, 0, 1, 5); // 10 turns
 
         Simulator sim = new Simulator(simulationParameters, productWeights, warehouses, orders, cl.getCommands());

@@ -31,4 +31,9 @@ public class Position {
         return (int) Math.ceil(Math.sqrt((Math.pow(ra - rb, 2) + Math.pow(ca - cb, 2))));
     }
 
+    @Override
+    public String toString() {
+        return "Position{" + "row=" + row + ", col=" + col + '}';
+    }
+
 }

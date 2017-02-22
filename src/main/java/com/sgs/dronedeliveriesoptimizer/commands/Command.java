@@ -29,7 +29,7 @@ public abstract class Command {
     protected abstract void setRemainingTurns();
 
     /**
-     * Executes a simulation step for this command, if this command if finishes during this step 
+     * Executes a simulation step for this command, if this command if finishes during this step
      * {@link #performAction() } is called
      *
      * @param simulationStep the number of this step from the beginning of the simulation
@@ -62,9 +62,9 @@ public abstract class Command {
     public int getTurnsRemaining() {
         return turnsRemaining;
     }
-    
+
     /**
-     * 
+     *
      * @return the last command that is not a WaitCommand, or null if there is no such command
      */
     protected Command getLastNonWaitCommand() {
@@ -78,5 +78,10 @@ public abstract class Command {
             }
         }
         return cmd;
+    }
+
+    @Override
+    public String toString() {
+        return "Command{turnsRemaining=" + turnsRemaining + ", simulationStep=" + simulationStep + '}';
     }
 }
