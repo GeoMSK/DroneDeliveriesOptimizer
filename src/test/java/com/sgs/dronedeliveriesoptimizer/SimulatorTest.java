@@ -90,4 +90,25 @@ public class SimulatorTest {
         assertEquals(15, sim.getTurns());
     }
 
+    @Test
+    public void testGetWarehouseToServeOrder () {
+        SimulationParameters simulationParameters = new SimulationParameters(10, 10, 2, 100, 50);
+        int[] productWeights = {1, 2, 3};
+        Warehouse[] warehouses = {
+            new Warehouse(new Position(0, 1), new int[]{5, 5, 5}),
+            new Warehouse(new Position(0, 3), new int[]{0, 0, 0})};
+        Order[] orders = {
+            new Order(new Position(9, 1), 6, new int[]{0, 0, 0, 0, 0, 0}),
+            new Order(new Position(9, 3), 5, new int[]{1, 1, 1, 1, 1}),
+        };
+
+        Simulator sim = new Simulator(simulationParameters, productWeights, warehouses, orders, "");
+        Warehouse wh = sim.getWarehouseToServeOrder(orders[1], new Position(0, 0));
+        assertEquals(0, wh.getPosition().getRow());
+        assertEquals(1, wh.getPosition().getCol());
+
+        wh = sim.getWarehouseToServeOrder(orders[0], new Position(0, 0));
+        assertNull(wh);
+    }
+
 }

@@ -8,8 +8,11 @@ import com.sgs.dronedeliveriesoptimizer.commands.StoreCommand;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.Scanner;
 
 /**
@@ -159,6 +162,43 @@ public class Simulator {
      */
     public int getTurns() {
         return s;
+    }
+
+    /**
+     * Finds the minimum distance warehouse which can serve an order. In case
+     * there is not enough availability to serve an order from a single warehouse,
+     * then null is returned.
+     *
+     * @param order the order for which we will find a warehouse to serve
+     * @param position starting point from which drone will travel to the warehouse
+     * @return the minimum distance warehouse which can serve an order
+     */
+    public Warehouse getWarehouseToServeOrder (Order order, Position position) {
+        HashMap<Integer, Integer> productsQuantityPerType = order.getProductQuantityPerType();
+        HashMap<Integer, Warehouse> warehousesMap = new HashMap();
+        int minDistance = Integer.MAX_VALUE;
+        outerloop:
+        for (Warehouse warehouse : warehouses) {
+            int products[] = warehouse.getProducts();
+            for (Map.Entry<Integer, Integer> entry : productsQuantityPerType.entrySet()) {
+                int type = entry.getKey();
+                int quantity = entry.getValue();
+                if (products[type] < quantity) {
+                    // this warehouse cannot serve the order on its own, check next warehouse.
+                    continue outerloop;
+                }
+            }
+            int distance = position.getDistance(warehouse.getPosition()) + warehouse.getPosition().getDistance(order.getDeliveryPos());
+            if (distance < minDistance) {
+                minDistance = distance;
+            }
+            warehousesMap.put(distance, warehouse);
+        }
+
+        if (warehousesMap.containsKey(minDistance)) {
+            return warehousesMap.get(minDistance);
+        }
+        return null;
     }
 
 }
